@@ -1,0 +1,749 @@
+<title>Maquettes ArtizaPro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : page de revue (plan, flux, système, galerie de cadres 390 px). Les cadres reprennent le système Neobank fourni : Space Grotesk, #202020 / #C9F158 / #F2F3F5 / #FFFFFF, cartes 20 px, boutons pilule. */
+:root {
+  --bg: #F2F3F5; --surface: #FFFFFF; --ink: #202020; --muted: #6F7580; --line: #E3E5EA; --accent: #202020; --lime: #C9F158; --frame: #1C1C1E;
+  --f: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  /* Système de l'app (fixe, clair : c'est le modèle fourni) */
+  --n-bg: #F2F3F5; --n-white: #FFFFFF; --n-ink: #202020; --n-lime: #C9F158; --n-muted: #7C828D; --n-line: #E6E8EC; --n-grey: #E9EBEF; --n-dark: #3A3A3C;
+  --n-green: #3C9A4E; --n-red: #E5484D; --n-violet: #6B5BD2;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg: #121316; --surface: #1C1D21; --ink: #F2F3F5; --muted: #9AA0AB; --line: #2C2E34; --accent: #C9F158; --frame: #3A3C44; } }
+:root[data-theme="dark"] { color-scheme: dark; --bg: #121316; --surface: #1C1D21; --ink: #F2F3F5; --muted: #9AA0AB; --line: #2C2E34; --accent: #C9F158; --frame: #3A3C44; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f); font-size: 15px; line-height: 1.5; padding-block: 0 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; font-weight: 700; }
+h1 { font-size: clamp(30px, 4vw, 44px); letter-spacing: -0.03em; } h2 { font-size: 26px; letter-spacing: -0.02em; } h3 { font-size: 17px; }
+p { margin: 0; max-width: 68ch; } .muted { color: var(--muted); }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.wrap { max-width: 1320px; margin: 0 auto; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px))); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.topbar .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding-block: 12px; }
+.brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; } .brand i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--lime); margin-left: 2px; }
+.topnav { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; } .topnav a { color: var(--muted); text-decoration: none; } .topnav a:hover { color: var(--ink); text-decoration: underline; }
+header.hero { padding-block: 40px 20px; display: grid; gap: 12px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+.note { background: var(--surface); padding: 14px 18px; border-radius: 16px; max-width: 80ch; border-left: 4px solid var(--lime); }
+section { padding-block: 36px 8px; display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 6px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border-radius: 20px; padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
+.card h3 { display: flex; align-items: center; gap: 8px; }
+.tree ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.tree li { display: grid; grid-template-columns: minmax(120px, 42%) 1fr; gap: 10px; font-size: 14px; align-items: baseline; }
+.tree li code { font-family: var(--f); font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tree li span { color: var(--muted); font-size: 13px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; } .dot.a { background: var(--ink); } .dot.c { background: var(--lime); } .dot.s { background: var(--muted); }
+.flow ol { list-style: none; margin: 0; padding: 0; display: grid; }
+.flow li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding-block: 7px; position: relative; font-size: 14px; }
+.flow li::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+.flow li:first-child::before { top: 50%; } .flow li:last-child::before { bottom: 50%; }
+.flow li .k { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); z-index: 1; margin-top: 1px; }
+.flow li.a .k { background: var(--ink); border-color: var(--ink); } .flow li.c .k { background: var(--lime); border-color: var(--lime); } .flow li.m .k { background: var(--surface); border-color: var(--ink); border-style: dashed; } .flow li.t .k { background: var(--line); }
+.flow .lab { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: block; font-weight: 500; }
+.flow .st { font-size: 12px; padding: 1px 7px; border-radius: 999px; background: var(--bg); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: var(--muted); } .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sw { display: grid; gap: 4px; font-size: 12px; color: var(--muted); } .sw i { display: block; height: 70px; border-radius: 16px; border: 1px solid var(--line); }
+.typo { display: grid; gap: 6px; } .typo .d1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; } .typo .d2 { font-size: 18px; font-weight: 600; } .typo .b1 { font-size: 15px; } .typo .b2 { font-size: 13px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(390px, 100%), 1fr)); gap: 30px 20px; justify-items: center; }
+.shot { display: grid; gap: 10px; width: min(390px, 100%); }
+.shot .cap { display: grid; gap: 2px; } .shot .cap h3 { font-size: 16px; } .shot .cap p { font-size: 13px; color: var(--muted); }
+
+/* ---------- Cadre ---------- */
+.phone { width: 100%; height: 800px; border-radius: 44px; border: 9px solid var(--frame); background: var(--n-bg); color: var(--n-ink); overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 24px 50px -28px rgba(0,0,0,.5); font-family: var(--f); font-size: 14px; line-height: 1.4; }
+.sb { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px 2px; font-size: 13px; font-weight: 600; }
+.sb .isl { width: 92px; height: 26px; border-radius: 13px; background: #111; }
+.sb .sig { font-size: 11px; letter-spacing: 1px; }
+.appbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 20px 12px; }
+.appbar .hello { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; } .appbar .sub { font-size: 13px; color: var(--n-muted); }
+.appbar .ttl { font-size: 18px; font-weight: 700; text-align: center; flex: 1; }
+.sq { width: 46px; height: 46px; border-radius: 14px; background: var(--n-white); border: 1px solid var(--n-line); display: grid; place-items: center; position: relative; flex: 0 0 auto; }
+.sq svg { width: 20px; height: 20px; }
+.sq .d { position: absolute; top: 12px; right: 13px; width: 8px; height: 8px; border-radius: 50%; background: var(--n-lime); border: 1.5px solid var(--n-white); }
+.sq.ph { visibility: hidden; }
+.screen { flex: 1; overflow-y: auto; padding: 0 20px 110px; display: grid; gap: 14px; align-content: start; scrollbar-width: none; }
+.screen::-webkit-scrollbar { display: none; }
+.screen.client { padding-bottom: 24px; }
+.tabbar { position: absolute; left: 10px; right: 10px; bottom: 10px; background: var(--n-white); border-radius: 26px; padding: 12px 8px 10px; display: grid; grid-template-columns: repeat(5, 1fr); box-shadow: 0 -2px 20px -8px rgba(0,0,0,.15); }
+.tabbar div { display: grid; justify-items: center; gap: 4px; font-size: 10.5px; color: var(--n-muted); font-weight: 500; }
+.tabbar div.on { color: var(--n-ink); font-weight: 600; }
+.tabbar svg { width: 22px; height: 22px; }
+.tabbar .av { width: 24px; height: 24px; border-radius: 50%; background: var(--n-ink); color: var(--n-lime); font-size: 9px; font-weight: 700; display: grid; place-items: center; outline: 2px solid var(--n-lime); outline-offset: 1px; }
+.home { position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; border-radius: 3px; background: var(--n-ink); }
+.phone.client .home { bottom: 8px; }
+
+/* ---------- Composants du système ---------- */
+.wc { background: var(--n-white); border-radius: 20px; padding: 18px 20px; display: grid; gap: 10px; }
+.wc .h { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.wc .h .lnk { font-size: 14px; font-weight: 500; color: var(--n-ink); }
+.sect { display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; padding-top: 4px; }
+.sect .lnk { font-size: 14px; font-weight: 500; }
+.big { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.lbl { font-size: 14px; color: var(--n-muted); }
+.pill { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 15px 18px; border-radius: 999px; background: var(--n-ink); color: var(--n-white); font-weight: 600; font-size: 15px; text-align: center; }
+.pill.w { background: var(--n-white); color: var(--n-ink); border: 1px solid var(--n-line); }
+.pill.l { background: var(--n-lime); color: var(--n-ink); }
+.pill.g { background: var(--n-grey); color: var(--n-ink); }
+.pill.sm { padding: 9px 14px; font-size: 13px; }
+.pill.ghost { background: transparent; color: var(--n-muted); padding-block: 6px; font-weight: 500; }
+.pill.red { background: transparent; color: var(--n-red); border: 1px solid var(--n-line); }
+.pill.off { opacity: .45; }
+.tag { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.tag.lime { background: var(--n-lime); color: var(--n-ink); } .tag.ink { background: var(--n-ink); color: var(--n-white); } .tag.grey { background: var(--n-grey); color: var(--n-ink); } .tag.green { background: #E3F4E6; color: var(--n-green); } .tag.red { background: #FCE8E9; color: var(--n-red); } .tag.violet { background: #ECE9FA; color: var(--n-violet); } .tag.out { background: var(--n-white); color: var(--n-ink); border: 1px solid var(--n-line); }
+.chips { display: flex; gap: 8px; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+.chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 999px; background: var(--n-white); border: 1px solid var(--n-line); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.chip.on { background: var(--n-ink); color: var(--n-white); border-color: var(--n-ink); }
+.chip b { font-weight: 500; opacity: .7; }
+.rows { display: grid; gap: 10px; }
+.rw { display: flex; align-items: center; gap: 12px; background: var(--n-white); border-radius: 16px; padding: 14px 16px; font-size: 15px; font-weight: 500; }
+.rw.g { background: var(--n-grey); }
+.rw .ico { width: 24px; height: 24px; flex: 0 0 auto; display: grid; place-items: center; } .rw .ico svg { width: 22px; height: 22px; }
+.rw .tx { flex: 1; display: grid; gap: 1px; } .rw .tx small { font-size: 12.5px; color: var(--n-muted); font-weight: 400; }
+.rw .chev { color: var(--n-muted); font-size: 18px; }
+.tog { width: 52px; height: 30px; border-radius: 15px; background: var(--n-line); position: relative; flex: 0 0 auto; } .tog::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.tog.on { background: var(--n-lime); } .tog.on::after { left: 25px; }
+.tog.on::before { content: ""; position: absolute; left: 10px; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--n-ink); }
+.li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--n-line); }
+.li:last-child { border-bottom: 0; padding-bottom: 0; } .li:first-child { padding-top: 0; }
+.li .av { width: 44px; height: 44px; border-radius: 50%; background: var(--n-bg); display: grid; place-items: center; font-weight: 700; font-size: 14px; flex: 0 0 auto; }
+.li .av.l { background: var(--n-lime); } .li .av.d { background: var(--n-ink); color: var(--n-white); }
+.li .tx { flex: 1; display: grid; gap: 2px; min-width: 0; } .li .tx b { font-size: 15px; font-weight: 600; } .li .tx small { font-size: 12.5px; color: var(--n-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.li .rt { display: grid; justify-items: end; gap: 4px; font-weight: 600; font-size: 14px; }
+.li .rt small { font-size: 12px; color: var(--n-muted); font-weight: 400; }
+.kv { display: grid; gap: 12px; margin: 0; }
+.kv div { display: flex; gap: 12px; align-items: flex-start; } .kv svg { width: 22px; height: 22px; flex: 0 0 auto; color: var(--n-ink); margin-top: 2px; }
+.kv dt { font-size: 13px; color: var(--n-muted); } .kv dd { margin: 0; font-size: 15px; font-weight: 500; }
+.field { display: grid; gap: 6px; } .field label { font-size: 13px; color: var(--n-muted); font-weight: 500; }
+.field .in { background: var(--n-white); border: 1px solid var(--n-line); border-radius: 16px; padding: 14px 16px; font-size: 15px; min-height: 50px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.field .in.ph { color: var(--n-muted); } .field .in.ta { min-height: 92px; align-items: flex-start; }
+.hint { font-size: 12.5px; color: var(--n-muted); }
+.cards { display: flex; gap: 12px; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+.agd { background: var(--n-white); border-radius: 20px; padding: 14px 12px 14px 0; }
+.agd .grid { position: relative; }
+.agd .hr { position: absolute; left: 0; right: 0; border-top: 1px solid var(--n-line); }
+.agd .hr span { position: absolute; left: 12px; top: -8px; background: var(--n-white); padding-right: 4px; font-size: 11px; color: var(--n-muted); }
+.agd .band { position: absolute; left: 52px; right: 0; border-radius: 12px; }
+.agd .band.v { background: #F1F2F5; } .agd .band.d { background: #F4FADC; }
+.agd .band i { position: absolute; right: 8px; top: 4px; font-style: normal; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--n-muted); }
+.agd .ev { position: absolute; left: 58px; right: 6px; border-radius: 12px; padding: 5px 10px; font-size: 12.5px; line-height: 1.25; overflow: hidden; display: flex; flex-wrap: wrap; align-content: center; gap: 1px 8px; }
+.agd .ev small { font-size: 11.5px; opacity: .8; }
+.agd .ev.l { background: var(--n-lime); color: var(--n-ink); } .agd .ev.d { background: var(--n-ink); color: var(--n-white); }
+.agd .ev.l small { flex-basis: 100%; }
+.agd .ev.l .tag { margin-top: 3px; }
+.agd .ev.tr { background: repeating-linear-gradient(135deg, #E6E8EC 0 4px, transparent 4px 8px); color: var(--n-muted); font-size: 10.5px; align-content: center; justify-content: center; padding-block: 0; }
+.agd .ev.free { border: 1.5px dashed var(--n-muted); color: var(--n-muted); align-content: center; }
+.agd .ev.ind { background: var(--n-white); border: 1.5px solid var(--n-ink); }
+.mm { position: relative; border-radius: 16px; overflow: hidden; background: #EEF0F2; } .mm svg { display: block; width: 100%; height: auto; }
+.rr { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; background: var(--n-bg); border-radius: 16px; padding: 10px 12px 10px 10px; }
+.rr.w { background: var(--n-white); }
+.rr .t { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; align-content: center; font-weight: 700; font-size: 15px; line-height: 1.1; text-align: center; }
+.rr .t small { display: block; font-size: 10.5px; font-weight: 500; opacity: .75; }
+.rr .t.l { background: var(--n-lime); color: var(--n-ink); } .rr .t.d { background: var(--n-ink); color: var(--n-white); }
+.rr .tx { display: grid; gap: 1px; min-width: 0; } .rr .tx b { font-size: 15px; font-weight: 600; } .rr .tx small { font-size: 12.5px; color: var(--n-muted); }
+.bigdate { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.typesel { display: flex; gap: 12px; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+.tsq { flex: 0 0 160px; border-radius: 20px; padding: 14px; display: grid; gap: 14px; background: var(--n-white); border: 2px solid var(--n-line); position: relative; }
+.tsq.on { border-color: var(--n-ink); }
+.tsq.on::after { content: ""; position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-radius: 50%; border: 5px solid var(--n-ink); background: var(--n-white); }
+.tsq .o { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; } .tsq .o svg { width: 22px; height: 22px; }
+.tsq.lime .o { background: var(--n-lime); color: var(--n-ink); } .tsq.dark .o { background: var(--n-ink); color: var(--n-white); }
+.tsq b { font-size: 16px; display: block; } .tsq small { font-size: 12px; color: var(--n-muted); }
+.slots { display: flex; flex-wrap: wrap; gap: 8px; }
+.slot { padding: 10px 14px; border-radius: 999px; background: var(--n-white); border: 1px solid var(--n-line); font-size: 13.5px; font-weight: 500; }
+.slot.on { background: var(--n-ink); color: var(--n-white); border-color: var(--n-ink); }
+.group { background: var(--n-white); border-radius: 20px; padding: 16px 18px; display: grid; gap: 0; }
+.group .gh { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding-bottom: 10px; margin-bottom: 4px; border-bottom: 1px solid var(--n-line); }
+.group .gh small { color: var(--n-muted); font-size: 13px; } .group .gh b { font-size: 16px; }
+.group .gh .r { text-align: right; }
+.tl { display: grid; } .tl div { display: grid; grid-template-columns: 56px 1fr; gap: 10px; font-size: 13px; padding-block: 6px; } .tl div span:first-child { color: var(--n-muted); }
+.map { position: relative; height: 420px; margin-inline: -20px; background: #EEF0F2; overflow: hidden; }
+.map .st { position: absolute; background: #fff; }
+.map .pin { position: absolute; width: 44px; height: 44px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: grid; place-items: center; }
+.map .pin span { transform: rotate(45deg); font-size: 10px; font-weight: 700; }
+.map .pin.l { background: var(--n-lime); } .map .pin.d { background: var(--n-ink); color: var(--n-white); } .map .pin.w { background: var(--n-white); border: 3px solid var(--n-ink); }
+.sheet { position: absolute; left: 10px; right: 10px; bottom: 88px; background: var(--n-white); border-radius: 24px; padding: 14px 20px 18px; display: grid; gap: 10px; box-shadow: 0 -4px 30px -10px rgba(0,0,0,.2); }
+.sheet .grab { width: 40px; height: 4px; border-radius: 2px; background: var(--n-line); margin: 0 auto 4px; }
+.sheet .h { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; } .sheet .h b { font-size: 18px; font-weight: 700; }
+.dayrow { display: flex; gap: 8px; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+.dayrow div { flex: 0 0 48px; height: 64px; border-radius: 16px; background: var(--n-white); display: grid; place-items: center; align-content: center; gap: 2px; font-size: 12px; color: var(--n-muted); }
+.dayrow div b { font-size: 16px; color: var(--n-ink); } .dayrow div.on { background: var(--n-ink); color: var(--n-white); } .dayrow div.on b { color: var(--n-white); }
+.dayrow div i { width: 5px; height: 5px; border-radius: 50%; background: var(--n-lime); display: block; }
+.sig { height: 160px; background: var(--n-white); border: 1px dashed var(--n-line); border-radius: 20px; position: relative; display: grid; place-items: center; color: var(--n-muted); font-size: 13px; }
+.sig svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.msg { background: var(--n-white); border-radius: 20px; padding: 14px 16px; display: grid; gap: 8px; font-size: 13.5px; }
+.msg .mh { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.msg .mh small { color: var(--n-muted); font-size: 12px; }
+.msg .body { background: var(--n-bg); border-radius: 14px; padding: 10px 12px; line-height: 1.45; }
+.msg .body u { text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+.msg.alert { outline: 2px solid var(--n-lime); }
+.otp { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; } .otp span { height: 54px; border-radius: 14px; background: var(--n-white); border: 1px solid var(--n-line); display: grid; place-items: center; font-size: 22px; font-weight: 600; }
+.pdf { height: 200px; border-radius: 20px; background: var(--n-white); padding: 18px; display: grid; gap: 7px; align-content: start; } .pdf i { display: block; height: 7px; border-radius: 4px; background: var(--n-grey); } .pdf i.w { width: 55%; } .pdf i.t { height: 12px; width: 40%; background: var(--n-ink); }
+.qr { width: 132px; height: 132px; margin: 0 auto; background: conic-gradient(var(--n-ink) 25%, transparent 0 50%, var(--n-ink) 0 75%, transparent 0) 0 0 / 22px 22px; border: 10px solid var(--n-white); border-radius: 12px; }
+.photos { display: flex; gap: 10px; } .photos i { width: 76px; height: 76px; border-radius: 16px; background: var(--n-grey); display: grid; place-items: center; font-size: 11px; color: var(--n-muted); font-style: normal; } .photos i.add { background: var(--n-white); border: 1px dashed var(--n-line); }
+.avatar { width: 96px; height: 96px; border-radius: 50%; background: var(--n-lime); display: grid; place-items: center; font-size: 30px; font-weight: 700; margin: 0 auto; position: relative; }
+.avatar .ed { position: absolute; right: -4px; bottom: -4px; width: 36px; height: 36px; border-radius: 50%; background: var(--n-white); border: 1px solid var(--n-line); display: grid; place-items: center; } .avatar .ed svg { width: 16px; height: 16px; }
+.hero-ill { height: 170px; display: grid; place-items: center; } .hero-ill svg { width: 150px; height: 150px; }
+.a4 { width: min(390px, 100%); background: #fff; color: #202020; border-radius: 10px; padding: 26px 24px; font-size: 12px; display: grid; gap: 12px; min-height: 560px; font-family: var(--f); box-shadow: 0 10px 30px -20px rgba(0,0,0,.5); }
+.a4 .hd { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid #202020; padding-bottom: 10px; } .a4 .hd small { color: #7C828D; display: block; } .a4 h3 { font-size: 20px; color: #202020; }
+.a4 dl { display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; margin: 0; } .a4 dt { color: #7C828D; } .a4 dd { margin: 0; }
+.a4 .box { background: #F2F3F5; border-radius: 10px; padding: 10px; min-height: 60px; }
+.a4 .foot { color: #7C828D; font-size: 10.5px; border-top: 1px solid #E6E8EC; padding-top: 8px; }
+.ok { display: grid; justify-items: center; gap: 12px; text-align: center; padding-top: 28px; }
+.ok .ck { width: 72px; height: 72px; border-radius: 50%; background: var(--n-lime); display: grid; place-items: center; font-size: 32px; font-weight: 700; }
+.cmp { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); border-radius: 16px; overflow: hidden; }
+.cmp th, .cmp td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; } .cmp th { font-size: 13px; color: var(--muted); font-weight: 600; } .cmp tr:last-child td { border-bottom: 0; }
+.tablewrap { overflow-x: auto; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 480px) { .phone { height: 740px; } .tree li { grid-template-columns: 1fr; gap: 0; } .swatches { grid-template-columns: repeat(2, 1fr); } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z M14 3v4h4 M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20l4-1 11-11-3-3L5 16z M13 8l3 3"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 13l1.5-5h11L19 13v5H5z M7 18v2M17 18v2M3 13h18"/><circle cx="8" cy="15.5" r="1"/><circle cx="16" cy="15.5" r="1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4-4m4 4l4-4M4 19h16"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol>
+</svg>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">ArtizaPro<i></i> maquettes</div>
+  <nav class="topnav"><a href="#plan">Plan du site</a><a href="#flux">Flux</a><a href="#systeme">Système</a><a href="#artisan">App artisan</a><a href="#client">Pages client</a></nav>
+</div></div>
+
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Étape 0 · version 3 · sans visuel bancaire, avec carte des rendez-vous</span>
+  <h1>Maquettes du MVP ArtizaPro</h1>
+  <p class="muted">Secrétaire commerciale de poche pour l'artisan seul. Le système visuel reprend le modèle fourni : Space Grotesk, encre, vert lime, cartes blanches sur fond gris clair, boutons pilule noirs, barre d'onglets flottante. Structure « Aujourd'hui d'abord » : l'accueil montre la journée, les dossiers sont une liste groupée par statut.</p>
+  <div class="meta"><span>13 novembre 2026</span><span>Cadres : iPhone 390 px</span><span>Artisan de démo : Thomas Dupont, Dupont Plomberie, Rezé</span></div>
+  <div class="note"><b>Ce qui est simulé dans cette passe.</b> Aucun SMS ne part : chaque message prévu est généré dans l'onglet <b>Messages</b> avec son texte et ses liens, qui ouvrent les vraies pages client. Pas d'appel manqué, pas de dictée vocale, pas d'IA, pas de signature eIDAS, pas de base de données, pas de login.</div>
+</header>
+
+<!-- ===================== PLAN ===================== -->
+<section id="plan">
+  <div class="sec-head"><h2>Plan du site</h2><p class="muted">Trois espaces : l'application artisan (5 onglets), les pages client ouvertes depuis un lien SMS, et les routes serveur.</p></div>
+  <div class="grid3">
+    <div class="card tree"><h3><span class="dot a"></span>Application artisan (PWA)</h3><ul>
+      <li><code>/</code><span>Accueil : journée, à décider, prochains RDV</span></li>
+      <li><code>/dossiers</code><span>Tous les dossiers groupés par statut, filtres</span></li>
+      <li><code>/dossiers/nouveau</code><span>Speed Dial : 3 clics, sans parler</span></li>
+      <li><code>/dossiers/[id]</code><span>Fiche dossier, actions selon le statut, historique</span></li>
+      <li><code>/dossiers/[id]/bon</code><span>Bon d'intervention + signature au doigt</span></li>
+      <li><code>/dossiers/[id]/devis</code><span>Import du devis PDF, QR code, relances</span></li>
+      <li><code>/agenda</code><span>Jour / semaine, indisponibilités, lien iCal</span></li>
+      <li><code>/messages</code><span>Journal des SMS simulés, retours privés</span></li>
+      <li><code>/perdus</code><span>Archive des dossiers perdus</span></li>
+      <li><code>/profil</code><span>Entreprise, durées, plages, relances, lien Google, automatisations</span></li>
+    </ul></div>
+    <div class="card tree"><h3><span class="dot c"></span>Pages client (sans compte)</h3><ul>
+      <li><code>/demande/[artisan]</code><span>Nouvelle demande : type, description, photos, adresse, créneau</span></li>
+      <li><code>/c/[token]/rdv</code><span>Confirmer, annuler ou reporter un rendez-vous</span></li>
+      <li><code>/c/[token]/devis</code><span>Lire le devis PDF et le signer avec le code SMS</span></li>
+      <li><code>/c/[token]/bon</code><span>Copie du bon d'intervention, imprimable</span></li>
+      <li><code>/c/[token]/retour</code><span>Retour privé après l'intervention</span></li>
+      <li><code>/c/[token]/stop</code><span>Désinscription des relances et demandes d'avis</span></li>
+    </ul></div>
+    <div class="card tree"><h3><span class="dot s"></span>Routes serveur</h3><ul>
+      <li><code>/api/jobs</code><span>Rappels J-1, relances devis (bouton Profil, cron plus tard)</span></li>
+      <li><code>/api/ical?key=</code><span>Flux iCalendar en lecture seule</span></li>
+      <li><code>/api/uploads/[f]</code><span>Service des PDF de devis importés</span></li>
+      <li><code>lib/repo</code><span>Dépôt de données abstrait, fichier JSON puis Supabase</span></li>
+      <li><code>lib/domain</code><span>Statuts, créneaux, gabarits SMS, automatisations testées</span></li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===================== FLUX ===================== -->
+<section id="flux">
+  <div class="sec-head"><h2>Les deux parcours</h2><p class="muted">Qui agit, quel statut change, quel SMS est généré, quelle page client s'ouvre.</p></div>
+  <div class="legend"><span><i class="dot a"></i>Écran artisan</span><span><i class="dot c"></i>Page client</span><span><i class="dot" style="border:2px dashed var(--ink);width:8px;height:8px"></i>SMS simulé</span><span><i class="dot s"></i>Automatisation</span></div>
+  <div class="grid3" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card flow"><h3>Dépannage rapide</h3><ol>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · Speed Dial</span>Numéro, nom, adresse, type, créneau. <span class="st">À traiter</span></div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · fiche</span>Valide le créneau. <span class="st">RDV planifié</span></div></li>
+      <li class="m"><i class="k"></i><div><span class="lab">SMS · confirmation</span>Date, heure, adresse, téléphone de l'artisan.</div></li>
+      <li class="t"><i class="k"></i><div><span class="lab">La veille · automatisation</span>Rappel anti-lapin avec lien. Sans confirmation : alerte sur l'accueil.</div></li>
+      <li class="c"><i class="k"></i><div><span class="lab">Client · /c/…/rdv</span>Confirme, annule ou demande un autre créneau.</div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · bon</span>Travaux réalisés, signature au doigt. <span class="st">Intervention faite</span></div></li>
+      <li class="m"><i class="k"></i><div><span class="lab">SMS · copie du bon</span>Lien vers la copie imprimable, sans prix ni TVA.</div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · fiche</span><span class="st">Terminé</span></div></li>
+      <li class="m"><i class="k"></i><div><span class="lab">SMS · demande d'avis (une seule)</span>Lien Google + retour privé + désinscription.</div></li>
+    </ol></div>
+    <div class="card flow"><h3>Visite technique puis devis</h3><ol>
+      <li class="c"><i class="k"></i><div><span class="lab">Client · /demande/dupont</span>Choisit « Visite devis », décrit, photos, créneau libre. <span class="st">À traiter</span></div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · fiche</span>Valide. <span class="st">Visite planifiée</span>, SMS + rappel J-1.</div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · devis</span>Glisse le PDF créé ailleurs. <span class="st">Devis envoyé</span></div></li>
+      <li class="m"><i class="k"></i><div><span class="lab">SMS · lien devis</span>Lien sécurisé + code. Sur place : QR code.</div></li>
+      <li class="c"><i class="k"></i><div><span class="lab">Client · /c/…/devis</span>Lit, saisit le code, signe. <span class="st">Signé</span></div></li>
+      <li class="t"><i class="k"></i><div><span class="lab">Après 4 jours · automatisation</span>Une relance (deux au plus). Sinon l'artisan passe en <span class="st">Perdu</span>.</div></li>
+      <li class="a"><i class="k"></i><div><span class="lab">Artisan · fiche</span><span class="st">Chantier planifié</span> puis <span class="st">Terminé</span></div></li>
+      <li class="m"><i class="k"></i><div><span class="lab">SMS · demande d'avis</span>Même message, une seule fois.</div></li>
+    </ol></div>
+  </div>
+</section>
+
+<!-- ===================== SYSTÈME ===================== -->
+<section id="systeme">
+  <div class="sec-head"><h2>Système visuel</h2><p class="muted">Repris tel quel du modèle. Le lime sert à ce qui demande l'attention de l'artisan et au prochain rendez-vous. Le noir porte l'action principale. Les types de mission se distinguent par une pastille lime (dépannage) ou noire (visite).</p></div>
+  <div class="grid3">
+    <div class="card"><h3>Couleurs</h3>
+      <div class="swatches"><div class="sw"><i style="background:#202020"></i>#202020</div><div class="sw"><i style="background:#C9F158"></i>#C9F158</div><div class="sw"><i style="background:#F2F3F5"></i>#F2F3F5</div><div class="sw"><i style="background:#FFFFFF"></i>#FFFFFF</div></div>
+      <div class="row" style="font-family:var(--f)"><span class="tag lime">À traiter</span><span class="tag ink">Planifié</span><span class="tag violet">Devis envoyé</span><span class="tag green">Signé</span><span class="tag green">Terminé</span><span class="tag grey">Perdu</span><span class="tag red">Non confirmé</span></div>
+      <p class="muted" style="font-size:13px">Couleurs d'appoint pour les statuts seulement : vert validé, violet devis, rouge alerte.</p>
+    </div>
+    <div class="card"><h3>Typographie</h3><div class="typo"><div class="d1">Space Grotesk</div><div class="d2">Aa Bb Cc Dd Ee Ff Gg 0123456789</div><div class="b1">Une seule famille, graisses 400 à 700. Titres 20 à 38 px, texte 15 px, légendes 13 px. Cibles tactiles 46 px.</div><div class="b2">Chiffres et heures en Space Grotesk aussi, comme sur le modèle.</div></div></div>
+    <div class="card"><h3>Formes</h3>
+      <div class="row"><span class="pill sm">Pilule noire</span><span class="pill w sm">Pilule blanche</span><span class="pill l sm">Pilule lime</span></div>
+      <div class="rw" style="border:1px solid var(--n-line)"><span class="ico"><svg><use href="#i-car"/></svg></span><span class="tx">Ligne de menu avec icône<small>Sous-titre gris</small></span><span class="chev">›</span></div>
+      <p class="muted" style="font-size:13px">Cartes blanches 20 px, lignes 16 px, boutons et chips pilule, carrés d'icône 14 px, barre d'onglets flottante 26 px.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APP ARTISAN ===================== -->
+<section id="artisan">
+  <div class="sec-head"><h2>Application artisan</h2><p class="muted">Dix écrans. Onglets : Accueil, Agenda, Dossiers, Messages, Profil. Le contenu des cadres défile comme sur un téléphone.</p></div>
+  <div class="gallery">
+
+    <!-- ACCUEIL -->
+    <div class="shot"><div class="cap"><h3>Accueil</h3><p>Salutation, gros chiffre (dossiers à décider), puis les rendez-vous du jour sur une carte avec l'itinéraire, et la liste À traiter.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div><div class="hello">Bonjour, Thomas</div><div class="sub">Jeudi 13 novembre · Dupont Plomberie</div></div><div class="sq"><svg><use href="#i-bell"/></svg><span class="d"></span></div></div>
+        <div class="screen">
+          <div class="wc"><div class="lbl">À décider aujourd'hui</div><div class="big">3 dossiers</div><div class="lbl" style="font-size:13px">1 créneau hors plage · 1 RDV demain non confirmé · 1 devis à relancer</div><div class="pill">Nouveau dossier</div></div>
+          <div class="sect">Aujourd'hui · 2 rendez-vous <span class="lnk">Agenda</span></div>
+          <div class="wc" style="padding:12px;gap:10px"><div class="mm" style=""><svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Carte des rendez-vous"><rect width="340" height="150" fill="#EEF0F2"/>
+<rect x="218" y="11" width="92" height="39" rx="12" fill="#E1EBD2"/>
+<path d="M-10 120 C 85 93, 136 147, 238 117 S 340 108, 350 126" stroke="#D2E3F2" stroke-width="15" fill="none"/>
+<g stroke="#FFFFFF" fill="none" stroke-linecap="round">
+<path d="M-10 50 L 350 33" stroke-width="11"/>
+<path d="M-10 90 L 350 75" stroke-width="7"/>
+<path d="M102 -10 L 126 160" stroke-width="9"/>
+<path d="M238 -10 L 211 160" stroke-width="6"/>
+<path d="M27 160 L 187 45" stroke-width="4"/>
+<path d="M306 52 L 323 105" stroke-width="4"/>
+</g><g font-family="Space Grotesk, Arial, sans-serif" font-size="9" fill="#9AA0AB"><text x="17" y="45" transform="rotate(-6 17 45)">Boulevard Jean Monnet</text><text x="136" y="85" transform="rotate(-6 136 85)">Rue de la Paix</text><text x="228" y="30">Parc</text><text x="17" y="135">La Loire</text></g><path d="M88 92 L236 58" fill="none" stroke="#202020" stroke-width="2.5" stroke-dasharray="6 6" stroke-linecap="round"/><circle cx="88" cy="92" r="15" fill="#202020" stroke="#202020" stroke-width="2"/><text x="88" y="96.5" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF" font-family="Space Grotesk, Arial, sans-serif">1</text><circle cx="236" cy="58" r="15" fill="#C9F158" stroke="#202020" stroke-width="2"/><text x="236" y="62.5" text-anchor="middle" font-size="13" font-weight="700" fill="#202020" font-family="Space Grotesk, Arial, sans-serif">2</text></svg></div>
+            <div class="rr"><div class="t d">9:00<small>40 min</small></div><span class="tx"><b>M. Morel</b><small>Visite · 4 rue Mercœur, Nantes</small></span><span class="tag green">Fait</span></div>
+            <div class="rr"><div class="t l">16:00<small>1 h 30</small></div><span class="tx"><b>Mme Roux</b><small>Dépannage · 9 rue Victor Hugo, Rezé</small></span><span class="tag out">Trajet 20 min</span></div>
+          </div>
+          <div class="rr w"><div class="t l">14:00<small>demain</small></div><span class="tx"><b>Mme Bernard</b><small>Dépannage · 12 rue de la Paix, Rezé</small></span><span class="tag red">Non confirmé</span></div>
+          <div class="wc"><div class="h">À traiter <span class="lnk">Voir tout</span></div>
+            <div class="li"><span class="av l">MR</span><span class="tx"><b>M. Rocher</b><small>Chauffe-eau en panne · demande 19:00</small></span><span class="rt"><span class="tag red">Hors plage</span><small>il y a 2 h</small></span></div>
+            <div class="li"><span class="av d">MG</span><span class="tx"><b>Mme Garnier</b><small>Remplacement chaudière · page client, 2 photos</small></span><span class="rt"><span class="tag lime">Visite</span><small>hier</small></span></div>
+            <div class="li"><span class="av l">ML</span><span class="tx"><b>M. Lefèvre</b><small>Devis envoyé le 10 nov. · non signé</small></span><span class="rt"><span class="tag violet">Relancer</span><small>J+3</small></span></div>
+          </div>
+        </div>
+        <div class="tabbar"><div class="on"><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- DOSSIERS -->
+    <div class="shot"><div class="cap"><h3>Dossiers</h3><p>Reprend l'écran « Transactions » : chips de filtre en haut, groupes par statut avec total à droite, lignes avec avatar. Les perdus sont en bas.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Dossiers</div><div class="sq"><svg><use href="#i-search"/></svg></div></div>
+        <div class="screen">
+          <div class="chips"><span class="chip">Période <b>▾</b></span><span class="chip on">Dépannage <b>×</b></span><span class="chip">Visite</span><span class="chip">Tri <b>▾</b></span></div>
+          <div class="group"><div class="gh"><small>Statut</small><small class="r">Dossiers</small><b>À traiter</b><b class="r">3</b></div>
+            <div class="li"><span class="av l">MR</span><span class="tx"><b>M. Rocher</b><small>8 av. de la Libération, Rezé</small></span><span class="rt"><span class="tag red">Hors plage</span><small>19:00 demandé</small></span></div>
+            <div class="li"><span class="av l">MP</span><span class="tx"><b>M. Petit</b><small>WC bouché · demain matin</small></span><span class="rt"><span class="tag lime">Dép</span><small>Speed Dial</small></span></div>
+          </div>
+          <div class="group"><div class="gh"><small>Statut</small><small class="r">Dossiers</small><b>RDV planifié</b><b class="r">2</b></div>
+            <div class="li"><span class="av l">MB</span><span class="tx"><b>Mme Bernard</b><small>Ven. 14 nov. 14:00 · 1 h 30</small></span><span class="rt"><span class="tag red">Non confirmé</span><small>rappel 18:00</small></span></div>
+            <div class="li"><span class="av l">SB</span><span class="tx"><b>Sté Bâti Ouest</b><small>Lun. 17 nov. 15:30 · 1 h 30</small></span><span class="rt"><span class="tag green">Confirmé</span><small>hier</small></span></div>
+          </div>
+          <div class="group"><div class="gh"><small>Statut</small><small class="r">Dossiers</small><b>Intervention faite</b><b class="r">1</b></div>
+            <div class="li"><span class="av l">MG</span><span class="tx"><b>Mme Garnier</b><small>Fuite robinet · bon signé 6 nov.</small></span><span class="rt"><span class="tag out">À terminer</span></span></div>
+          </div>
+          <div class="group"><div class="gh"><small>Statut</small><small class="r">Dossiers</small><b>Terminé</b><b class="r">4</b></div><div class="hint">Avis demandé pour chacun · 1 retour privé reçu</div></div>
+          <div class="pill ghost">Dossiers perdus (4)</div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div class="on"><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- SPEED DIAL -->
+    <div class="shot"><div class="cap"><h3>Speed Dial</h3><p>Deux tuiles pour le type de mission (icône lime = dépannage, noire = visite), puis lignes à chevron pour le créneau. Numéro prérempli avec le dernier saisi.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq"><svg><use href="#i-back"/></svg></div><div class="ttl">Nouveau dossier</div><div class="sq ph"></div></div>
+        <div class="screen">
+          <div class="sect">Type de mission</div>
+          <div class="typesel">
+            <div class="tsq lime on"><span class="o"><svg><use href="#i-bolt"/></svg></span><div><b>Dépannage</b><small>1 h 30 par défaut</small></div></div>
+            <div class="tsq dark"><span class="o"><svg><use href="#i-doc"/></svg></span><div><b>Visite devis</b><small>40 min par défaut</small></div></div>
+          </div>
+          <div class="field"><label>Numéro du client</label><div class="in">06 12 34 56 78 <span class="tag grey">dernier saisi</span></div></div>
+          <div class="field"><label>Nom</label><div class="in">Mme Bernard</div></div>
+          <div class="field"><label>Adresse</label><div class="in">12 rue de la Paix, Rezé</div></div>
+          <div class="sect">Créneau</div>
+          <div class="rows">
+            <div class="rw"><span class="ico"><svg><use href="#i-bolt"/></svg></span><span class="tx">Aujourd'hui<small>Prochain créneau libre 16:00</small></span><span class="chev">›</span></div>
+            <div class="rw" style="outline:2px solid var(--n-ink)"><span class="ico"><svg><use href="#i-clock"/></svg></span><span class="tx">Demain après-midi<small>14:00 · 15:45 · 17:30</small></span><span class="tag lime">14:00</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-clock"/></svg></span><span class="tx">Demain matin<small>Plage visites, hors plage pour un dépannage</small></span><span class="chev">›</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-cal"/></svg></span><span class="tx">Calendrier</span><span class="chev">›</span></div>
+          </div>
+          <div class="pill">Créer le dossier et planifier</div>
+          <div class="hint" style="text-align:center">Le SMS de confirmation est généré après cette validation.</div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- FICHE DÉPANNAGE -->
+    <div class="shot"><div class="cap"><h3>Fiche dossier · dépannage</h3><p>Titre centré, bloc Rendez-vous avec le lieu sur la carte, blocs blancs avec icônes à gauche. Actions en pilules.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq"><svg><use href="#i-back"/></svg></div><div class="ttl">Mme Bernard</div><div class="sq"><svg><use href="#i-phone"/></svg></div></div>
+        <div class="screen">
+          <div class="row" style="justify-content:center"><span class="tag ink">RDV planifié</span><span class="tag lime">Dépannage</span><span class="tag red">Non confirmé</span></div>
+          <div class="wc"><div class="h">Rendez-vous <span class="tag red">Non confirmé</span></div>
+            <div class="rr"><div class="t l">14:00<small>ven. 14</small></div><span class="tx"><b>14:00–15:30 · 1 h 30</b><small>Rappel J-1 aujourd'hui 18:00 · trajet 20 min</small></span></div>
+            <div class="mm" style=""><svg viewBox="0 0 340 130" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Carte des rendez-vous"><rect width="340" height="130" fill="#EEF0F2"/>
+<rect x="218" y="9" width="92" height="34" rx="12" fill="#E1EBD2"/>
+<path d="M-10 104 C 85 81, 136 127, 238 101 S 340 94, 350 109" stroke="#D2E3F2" stroke-width="13" fill="none"/>
+<g stroke="#FFFFFF" fill="none" stroke-linecap="round">
+<path d="M-10 43 L 350 29" stroke-width="11"/>
+<path d="M-10 78 L 350 65" stroke-width="7"/>
+<path d="M102 -10 L 126 140" stroke-width="9"/>
+<path d="M238 -10 L 211 140" stroke-width="6"/>
+<path d="M27 140 L 187 39" stroke-width="4"/>
+<path d="M306 46 L 323 91" stroke-width="4"/>
+</g><circle cx="170" cy="64" r="23" fill="#FFFFFF" fill-opacity=".75"/><circle cx="170" cy="64" r="15" fill="#C9F158" stroke="#202020" stroke-width="2"/><text x="170" y="68.5" text-anchor="middle" font-size="13" font-weight="700" fill="#202020" font-family="Space Grotesk, Arial, sans-serif">1</text></svg></div>
+            <div class="row"><span class="pill w sm" style="flex:1">Replanifier</span><span class="pill w sm" style="flex:1">Itinéraire</span></div>
+          </div>
+          <div class="wc"><div class="h">Client <span class="lnk">Modifier</span></div>
+            <dl class="kv"><div><svg><use href="#i-user"/></svg><div><dt>Nom</dt><dd>Mme Bernard</dd></div></div><div><svg><use href="#i-phone"/></svg><div><dt>Téléphone</dt><dd>06 12 34 56 78</dd></div></div><div><svg><use href="#i-pin"/></svg><div><dt>Adresse</dt><dd>12 rue de la Paix, 44400 Rezé</dd></div></div></dl>
+          </div>
+          <div class="wc"><div class="h">Besoin</div><p style="font-size:14px">Fuite sous l'évier de la cuisine, goutte en continu depuis hier soir, arrivée d'eau coupée.</p><dl class="kv"><div><svg><use href="#i-gear"/></svg><div><dt>Pièces probables</dt><dd>Siphon, joint de bonde</dd></div></div></dl><div class="photos"><i>photo 1</i><i>photo 2</i></div></div>
+          <div class="pill">Rédiger le bon d'intervention</div>
+          <div class="pill w">Renvoyer le lien de confirmation</div>
+          <div class="pill red">Passer en Perdu</div>
+          <div class="wc"><div class="h">Historique</div><div class="tl"><div><span>12 nov.</span><span>Créé via Speed Dial</span></div><div><span>12 nov.</span><span>RDV planifié · SMS de confirmation</span></div><div><span>13 nov.</span><span>Rappel J-1 prévu 18:00</span></div></div></div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div class="on"><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- FICHE VISITE -->
+    <div class="shot"><div class="cap"><h3>Fiche dossier · visite avec devis</h3><p>Lieu de la visite sur la carte. Bloc Devis avec fichier, relance, QR code pour signer sur le téléphone du client.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq"><svg><use href="#i-back"/></svg></div><div class="ttl">M. Lefèvre</div><div class="sq"><svg><use href="#i-phone"/></svg></div></div>
+        <div class="screen">
+          <div class="row" style="justify-content:center"><span class="tag violet">Devis envoyé</span><span class="tag ink">Visite</span></div>
+          <div class="wc"><div class="h">Visite faite <span class="tag green">7 nov. · 9:00</span></div>
+            <div class="mm" style=""><svg viewBox="0 0 340 130" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Carte des rendez-vous"><rect width="340" height="130" fill="#EEF0F2"/>
+<rect x="218" y="9" width="92" height="34" rx="12" fill="#E1EBD2"/>
+<path d="M-10 104 C 85 81, 136 127, 238 101 S 340 94, 350 109" stroke="#D2E3F2" stroke-width="13" fill="none"/>
+<g stroke="#FFFFFF" fill="none" stroke-linecap="round">
+<path d="M-10 43 L 350 29" stroke-width="11"/>
+<path d="M-10 78 L 350 65" stroke-width="7"/>
+<path d="M102 -10 L 126 140" stroke-width="9"/>
+<path d="M238 -10 L 211 140" stroke-width="6"/>
+<path d="M27 140 L 187 39" stroke-width="4"/>
+<path d="M306 46 L 323 91" stroke-width="4"/>
+</g><circle cx="170" cy="64" r="23" fill="#FFFFFF" fill-opacity=".75"/><circle cx="170" cy="64" r="15" fill="#202020" stroke="#202020" stroke-width="2"/><text x="170" y="68.5" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF" font-family="Space Grotesk, Arial, sans-serif">1</text></svg></div>
+            <dl class="kv"><div><svg><use href="#i-pin"/></svg><div><dt>Lieu</dt><dd>17 rue Carnot, Bouguenais</dd></div></div><div><svg><use href="#i-doc"/></svg><div><dt>Besoin</dt><dd>Chaudière gaz 2004 à remplacer, 85 m²</dd></div></div></dl>
+          </div>
+          <div class="wc"><div class="h">Devis <span class="tag violet">Non signé</span></div>
+            <div class="rw g"><span class="ico"><svg><use href="#i-doc"/></svg></span><span class="tx">devis-2026-118.pdf<small>Envoyé le 10 nov. 17:20 par SMS</small></span><span class="chev">›</span></div>
+            <div class="qr"></div>
+            <div class="hint" style="text-align:center">Le client scanne et signe sur son propre téléphone</div>
+            <div class="row"><span class="pill w sm" style="flex:1">Relancer maintenant</span><span class="pill w sm" style="flex:1">Remplacer le PDF</span></div>
+            <div class="hint">Relance automatique prévue le 14 nov. (1 sur 1)</div>
+          </div>
+          <div class="wc"><div class="h">Client</div><dl class="kv"><div><svg><use href="#i-phone"/></svg><div><dt>Téléphone</dt><dd>07 65 43 21 09</dd></div></div><div><svg><use href="#i-pin"/></svg><div><dt>Adresse</dt><dd>17 rue Carnot, 44340 Bouguenais</dd></div></div></dl></div>
+          <div class="pill off">Planifier le chantier (après signature)</div>
+          <div class="pill w">Marquer signé manuellement</div>
+          <div class="pill red">Passer en Perdu</div>
+          <div class="wc"><div class="h">Historique</div><div class="tl"><div><span>4 nov.</span><span>Demande reçue via la page client</span></div><div><span>6 nov.</span><span>Présence confirmée par le client</span></div><div><span>7 nov.</span><span>Visite faite</span></div><div><span>10 nov.</span><span>Devis importé, lien envoyé</span></div></div></div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div class="on"><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- BON -->
+    <div class="shot"><div class="cap"><h3>Bon d'intervention</h3><p>Prérempli depuis la fiche. L'artisan décrit les travaux, tend le téléphone, le client signe au doigt. Ni prix ni TVA.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq"><svg><use href="#i-back"/></svg></div><div class="ttl">Bon d'intervention</div><div class="sq ph"></div></div>
+        <div class="screen">
+          <div class="wc"><dl class="kv"><div><svg><use href="#i-user"/></svg><div><dt>Client</dt><dd>Mme Bernard · 12 rue de la Paix, Rezé</dd></div></div><div><svg><use href="#i-clock"/></svg><div><dt>Intervention</dt><dd>14 nov. 2026, 14:00–15:30</dd></div></div><div><svg><use href="#i-doc"/></svg><div><dt>Problème signalé</dt><dd>Fuite sous l'évier de la cuisine</dd></div></div></dl></div>
+          <div class="field"><label>Travaux réalisés</label><div class="in ta">Remplacement du siphon et du joint de bonde, contrôle d'étanchéité, remise en eau.</div></div>
+          <div class="field"><label>Signature du client</label>
+            <div class="sig"><svg viewBox="0 0 340 160" aria-hidden="true"><path d="M30 105 C 60 45, 90 135, 120 85 S 170 45, 190 100 S 240 115, 260 75 S 300 65, 315 95" fill="none" stroke="#202020" stroke-width="2.2" stroke-linecap="round"/></svg><span style="position:absolute;bottom:10px;right:14px" class="tag grey">Effacer</span></div>
+            <div class="hint">Le client signe sur ton téléphone, après les travaux.</div>
+          </div>
+          <div class="rw g"><span class="ico"><svg><use href="#i-lock"/></svg></span><span class="tx">Sans prix ni TVA<small>Ce bon n'est pas une facture.</small></span></div>
+          <div class="pill">Valider et envoyer la copie</div>
+          <div class="hint" style="text-align:center">Le dossier passe en « Intervention faite ». Le client reçoit un lien vers la copie.</div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- AGENDA -->
+    <div class="shot"><div class="cap"><h3>Agenda</h3><p>Grille horaire du jour : plages visites et dépannages teintées, rendez-vous, trajets, indisponibilités et créneaux libres proposés aux clients. Bandeau de jours en haut ; les lieux restent à un bouton de là.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Agenda</div><div class="sq"><svg><use href="#i-link"/></svg></div></div>
+        <div class="screen" style="gap:10px">
+          <div class="dayrow"><div><span>L</span><b>10</b></div><div><span>M</span><b>11</b></div><div><span>M</span><b>12</b></div><div><span>J</span><b>13</b><i></i></div><div class="on"><span>V</span><b>14</b></div><div><span>S</span><b>15</b></div><div><span>D</span><b>16</b></div><div><span>L</span><b>17</b><i></i></div></div>
+          <div class="seg"><span class="on">Jour</span><span>Semaine</span><span>Indispos</span></div>
+          <div class="agd"><div class="grid" style="height:624px"><div class="hr" style="top:0px"><span>8:00</span></div><div class="hr" style="top:52px"><span>9:00</span></div><div class="hr" style="top:104px"><span>10:00</span></div><div class="hr" style="top:156px"><span>11:00</span></div><div class="hr" style="top:208px"><span>12:00</span></div><div class="hr" style="top:260px"><span>13:00</span></div><div class="hr" style="top:312px"><span>14:00</span></div><div class="hr" style="top:364px"><span>15:00</span></div><div class="hr" style="top:416px"><span>16:00</span></div><div class="hr" style="top:468px"><span>17:00</span></div><div class="hr" style="top:520px"><span>18:00</span></div><div class="hr" style="top:572px"><span>19:00</span></div><div class="band v" style="top:0;height:208px"><i>Visites</i></div><div class="band d" style="top:286px;height:260px"><i>Dépannages</i></div><div class="ev d" style="top:52px;height:35px"><b>Mme Lemoine</b> <small>9:00 · Visite · Nantes</small></div><div class="ev tr" style="top:87px;height:17px">trajet 20 min</div><div class="ev d" style="top:104px;height:35px"><b>M. Aubry</b> <small>10:00 · Visite · Nantes</small></div><div class="ev tr" style="top:139px;height:17px">trajet 20 min</div><div class="ev free" style="top:156px;height:52px">Libre · proposé aux clients</div><div class="ev l" style="top:312px;height:78px"><b>Mme Bernard</b> <small>14:00–15:30 · Dépannage</small><small>12 rue de la Paix, Rezé</small><span class="tag red">Non confirmé</span></div><div class="ev tr" style="top:390px;height:17px">trajet 20 min</div><div class="ev free" style="top:407px;height:35px">Libre</div><div class="ev ind" style="top:442px;height:52px"><b>Indisponible</b> <small>Fournisseur, 16:30–17:30</small></div><div class="ev free" style="top:494px;height:52px">Libre · proposé aux clients</div></div></div>
+          <div class="row"><span class="pill w sm" style="flex:1">+ Indisponibilité</span><span class="pill w sm" style="flex:1">Voir les lieux</span></div>
+          <div class="hint">Les événements de ton agenda externe ne bloquent pas les créneaux : marque tes indisponibilités ici.</div>
+        
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div class="on"><svg><use href="#i-cal"/></svg>Agenda</div><div><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="shot"><div class="cap"><h3>Messages</h3><p>Journal des SMS simulés avec le texte exact et les liens cliquables. Les retours privés sont cerclés de lime : ils attendent un rappel.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Messages</div><div class="sq"><svg><use href="#i-search"/></svg></div></div>
+        <div class="screen">
+          <div class="chips"><span class="chip on">Tous</span><span class="chip">Retours privés</span><span class="chip">Rappels</span><span class="chip">Devis</span><span class="chip">Avis</span></div>
+          <div class="msg alert"><div class="mh"><span class="tag lime">Retour privé · à rappeler</span><small>13 nov. 8:12</small></div><div><b>Mme Garnier</b> · 06 98 76 54 32</div><div class="body">Bonjour, le robinet goutte encore légèrement quand on le ferme fort. Pouvez-vous repasser ?</div><div class="row"><span class="pill sm">Appeler</span><span class="pill ghost sm">Marquer traité</span></div></div>
+          <div class="msg"><div class="mh"><span class="tag green">Demande d'avis</span><small>12 nov. 17:05</small></div><div><b>Mme Garnier</b> · 06 98 76 54 32</div><div class="body">Merci pour votre confiance. Si vous avez un instant, votre avis aide beaucoup Dupont Plomberie : <u>g.page/dupont-plomberie</u>. Un souci avec l'intervention ? Écrivez-nous ici : <u>artiza.pro/c/k8f2/retour</u>. Stop : <u>artiza.pro/c/k8f2/stop</u></div></div>
+          <div class="msg"><div class="mh"><span class="tag ink">Confirmation RDV</span><small>12 nov. 18:44</small></div><div><b>Mme Bernard</b> · 06 12 34 56 78</div><div class="body">Bonjour, ici Dupont Plomberie. Rendez-vous confirmé vendredi 14 novembre à 14 h, 12 rue de la Paix. Pour nous joindre : 06 11 22 33 44.</div></div>
+          <div class="msg"><div class="mh"><span class="tag violet">Lien devis</span><small>10 nov. 17:20</small></div><div><b>M. Lefèvre</b> · 07 65 43 21 09</div><div class="body">Bonjour, ici Dupont Plomberie. Votre devis est prêt, lisez-le et signez-le ici : <u>artiza.pro/c/m3q7/devis</u>. Code de signature : <b>482 913</b>. Pour nous joindre : 06 11 22 33 44.</div></div>
+          <div class="msg"><div class="mh"><span class="tag grey">Rappel J-1 · programmé</span><small>13 nov. 18:00</small></div><div><b>Mme Bernard</b> · 06 12 34 56 78</div><div class="body">Rappel : rendez-vous demain vendredi à 14 h avec Dupont Plomberie. Confirmez d'un clic : <u>artiza.pro/c/k8f2/rdv</u></div></div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div><svg><use href="#i-folder"/></svg>Dossiers</div><div class="on"><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- PERDUS -->
+    <div class="shot"><div class="cap"><h3>Dossiers perdus</h3><p>Archive à part. Aucune demande d'avis pour ces dossiers. Un dossier peut être restauré.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq"><svg><use href="#i-back"/></svg></div><div class="ttl">Perdus</div><div class="sq"><svg><use href="#i-search"/></svg></div></div>
+        <div class="screen">
+          <div class="chips"><span class="chip on">Tous</span><span class="chip">Devis non signé</span><span class="chip">Annulé</span><span class="chip">Injoignable</span></div>
+          <div class="group"><div class="gh"><small>Motif</small><small class="r">Date</small><b>Devis non signé</b><b class="r">2</b></div>
+            <div class="li"><span class="av">MD</span><span class="tx"><b>M. Dubois</b><small>Après 2 relances · Nantes</small></span><span class="rt"><span class="tag out">Restaurer</span><small>3 nov.</small></span></div>
+            <div class="li"><span class="av">MN</span><span class="tx"><b>M. Nguyen</b><small>A choisi un autre artisan</small></span><span class="rt"><span class="tag out">Restaurer</span><small>21 oct.</small></span></div>
+          </div>
+          <div class="group"><div class="gh"><small>Motif</small><small class="r">Date</small><b>Rendez-vous annulé</b><b class="r">1</b></div>
+            <div class="li"><span class="av">MS</span><span class="tx"><b>Mme Simon</b><small>Annulé par le client depuis le lien</small></span><span class="rt"><span class="tag out">Restaurer</span><small>29 oct.</small></span></div>
+          </div>
+          <div class="group"><div class="gh"><small>Motif</small><small class="r">Date</small><b>Injoignable</b><b class="r">1</b></div>
+            <div class="li"><span class="av">SB</span><span class="tx"><b>Sté Bâti Ouest</b><small>3 appels sans réponse</small></span><span class="rt"><span class="tag out">Restaurer</span><small>14 oct.</small></span></div>
+          </div>
+          <div class="hint">Conservation 3 ans après clôture (à confirmer avec un juriste). Suppression ou export depuis la fiche.</div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div class="on"><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="shot"><div class="cap"><h3>Profil et réglages</h3><p>Reprend « Profile » et « Settings » : avatar, bloc Entreprise avec icônes, puis les réglages du cahier en lignes et bascules.</p></div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Profil</div><div class="sq ph"></div></div>
+        <div class="screen">
+          <div class="avatar">TD<span class="ed"><svg><use href="#i-pen"/></svg></span></div>
+          <div class="wc"><div class="h">Entreprise <span class="lnk">Modifier</span></div>
+            <dl class="kv"><div><svg><use href="#i-user"/></svg><div><dt>Nom affiché</dt><dd>Dupont Plomberie</dd></div></div><div><svg><use href="#i-phone"/></svg><div><dt>Téléphone dans les SMS</dt><dd>06 11 22 33 44</dd></div></div><div><svg><use href="#i-msg"/></svg><div><dt>Nom d'expéditeur SMS</dt><dd>DUPONT-PLOMB</dd></div></div><div><svg><use href="#i-star"/></svg><div><dt>Fiche Google</dt><dd>g.page/dupont-plomberie</dd></div></div></dl>
+          </div>
+          <div class="sect">Durées et plages</div>
+          <div class="rows">
+            <div class="rw"><span class="ico"><svg><use href="#i-bolt"/></svg></span><span class="tx">Dépannage<small>1 h 30 · lun.–ven. 13:30–18:30, sam. 9:00–12:00</small></span><span class="chev">›</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-doc"/></svg></span><span class="tx">Visite technique<small>40 min · lun.–ven. 8:00–12:00</small></span><span class="chev">›</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-car"/></svg></span><span class="tx">Trajet entre deux RDV<small>20 min</small></span><span class="chev">›</span></div>
+          </div>
+          <div class="sect">Messages automatiques</div>
+          <div class="rows">
+            <div class="rw"><span class="ico"><svg><use href="#i-bell"/></svg></span><span class="tx">Rappel la veille<small>Envoyé à 18:00</small></span><span class="tog on"></span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-clock"/></svg></span><span class="tx">Relance de devis<small>Après 4 jours · 1 relance (2 max)</small></span><span class="chev">›</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-star"/></svg></span><span class="tx">Demande d'avis<small>À chaque dossier terminé</small></span><span class="tog on"></span></div>
+          </div>
+          <div class="sect">Partage et données</div>
+          <div class="rows">
+            <div class="rw"><span class="ico"><svg><use href="#i-link"/></svg></span><span class="tx">Lien de demande public<small>artiza.pro/demande/dupont</small></span><span class="tag lime">QR</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-cal"/></svg></span><span class="tx">Abonnement iCal<small>Lecture seule, lien privé</small></span><span class="chev">›</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-gear"/></svg></span><span class="tx">Automatisations<small>Dernier passage 8:00 · 1 rappel généré</small></span><span class="pill sm">Lancer</span></div>
+            <div class="rw"><span class="ico"><svg><use href="#i-dl"/></svg></span><span class="tx">Exporter les dossiers (JSON)</span><span class="chev">›</span></div>
+          </div>
+        </div>
+        <div class="tabbar"><div><svg><use href="#i-home"/></svg>Accueil</div><div><svg><use href="#i-cal"/></svg>Agenda</div><div><svg><use href="#i-folder"/></svg>Dossiers</div><div><svg><use href="#i-msg"/></svg>Messages</div><div class="on"><span class="av">TD</span>Profil</div></div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== PAGES CLIENT ===================== -->
+<section id="client">
+  <div class="sec-head"><h2>Pages client</h2><p class="muted">Ouvertes depuis un lien SMS, sans compte. Même système, sans barre d'onglets : en-tête avec retour et titre centré, une action principale en pilule noire, le téléphone de l'artisan toujours visible.</p></div>
+  <div class="gallery">
+
+    <!-- DEMANDE -->
+    <div class="shot"><div class="cap"><h3>Nouvelle demande</h3><p>Reprend « Replace your card » : titre, phrase d'accroche, champs étiquetés. Tuiles de type comme dans l'app, créneaux libres uniquement.</p></div>
+      <div class="phone client">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Dupont Plomberie</div><div class="sq ph"></div></div>
+        <div class="screen client">
+          <div><div class="hello" style="font-size:22px;font-weight:700;letter-spacing:-0.02em">Décrivez votre besoin</div><div class="hint" style="font-size:14px">Nous vous confirmons un créneau par SMS. Aucun compte à créer.</div></div>
+          <div class="typesel">
+            <div class="tsq lime"><span class="o"><svg><use href="#i-bolt"/></svg></span><div><b>Dépannage</b><small>Fuite, panne, urgence</small></div></div>
+            <div class="tsq dark on"><span class="o"><svg><use href="#i-doc"/></svg></span><div><b>Visite pour devis</b><small>Travaux, remplacement</small></div></div>
+          </div>
+          <div class="field"><label>Le problème</label><div class="in ta">Chaudière gaz de 2004 à remplacer, appartement 85 m², je voudrais un devis pour une condensation.</div></div>
+          <div class="field"><label>Photos (2 maximum)</label><div class="photos"><i>chaudière</i><i class="add">+ Ajouter</i></div></div>
+          <div class="field"><label>Votre nom</label><div class="in">Mme Garnier</div></div>
+          <div class="field"><label>Votre téléphone</label><div class="in">06 98 76 54 32</div></div>
+          <div class="field"><label>Adresse de l'intervention</label><div class="in">3 rue des Lilas, 44000 Nantes</div></div>
+          <div class="field"><label>Créneau de visite (40 min)</label><div class="slots"><span class="slot">Lun. 17 · 8:30</span><span class="slot on">Lun. 17 · 10:30</span><span class="slot">Mar. 18 · 9:40</span><span class="slot">Mer. 19 · 8:00</span><span class="slot">Autre moment</span></div></div>
+          <div class="pill">Envoyer ma demande</div>
+          <div class="hint">Vos informations sont transmises à Dupont Plomberie uniquement, pour traiter votre demande. Hébergement en Union européenne.</div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- RDV -->
+    <div class="shot"><div class="cap"><h3>Confirmation de rendez-vous</h3><p>Lien du rappel J-1. Date, lieu sur la carte, puis trois actions, la première en gros.</p></div>
+      <div class="phone client">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Votre rendez-vous</div><div class="sq ph"></div></div>
+        <div class="screen client">
+          <div class="wc"><span class="tag lime" style="justify-self:start">Dépannage</span>
+            <div class="bigdate">Vendredi 14 novembre<br>à 14:00</div>
+            <div class="hint" style="font-size:14px">Dupont Plomberie · environ 1 h 30</div>
+            <div class="mm" style=""><svg viewBox="0 0 340 130" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Carte des rendez-vous"><rect width="340" height="130" fill="#EEF0F2"/>
+<rect x="218" y="9" width="92" height="34" rx="12" fill="#E1EBD2"/>
+<path d="M-10 104 C 85 81, 136 127, 238 101 S 340 94, 350 109" stroke="#D2E3F2" stroke-width="13" fill="none"/>
+<g stroke="#FFFFFF" fill="none" stroke-linecap="round">
+<path d="M-10 43 L 350 29" stroke-width="11"/>
+<path d="M-10 78 L 350 65" stroke-width="7"/>
+<path d="M102 -10 L 126 140" stroke-width="9"/>
+<path d="M238 -10 L 211 140" stroke-width="6"/>
+<path d="M27 140 L 187 39" stroke-width="4"/>
+<path d="M306 46 L 323 91" stroke-width="4"/>
+</g><circle cx="170" cy="64" r="23" fill="#FFFFFF" fill-opacity=".75"/><circle cx="170" cy="64" r="15" fill="#C9F158" stroke="#202020" stroke-width="2"/><text x="170" y="68.5" text-anchor="middle" font-size="13" font-weight="700" fill="#202020" font-family="Space Grotesk, Arial, sans-serif">1</text></svg></div>
+            <dl class="kv"><div><svg><use href="#i-pin"/></svg><div><dt>Adresse de l'intervention</dt><dd>12 rue de la Paix, 44400 Rezé</dd></div></div></dl>
+          </div>
+          <div class="pill" style="padding-block:19px;font-size:17px">Je confirme ma présence</div>
+          <div class="pill w">Demander un autre créneau</div>
+          <div class="pill red">Annuler le rendez-vous</div>
+          <div class="rw" style="margin-top:8px"><span class="ico"><svg><use href="#i-phone"/></svg></span><span class="tx">Une question ? Appelez-nous<small>06 11 22 33 44</small></span><span class="chev">›</span></div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- DEVIS -->
+    <div class="shot"><div class="cap"><h3>Devis à signer</h3><p>Le PDF de l'artisan, le code reçu par SMS, un bouton. Dans cette passe le code apparaît dans Messages ; la signature eIDAS viendra d'un prestataire.</p></div>
+      <div class="phone client">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Votre devis</div><div class="sq ph"></div></div>
+        <div class="screen client">
+          <div class="hint" style="text-align:center">Dupont Plomberie · devis n° 2026-118 · envoyé le 10 nov.</div>
+          <div class="pdf"><i class="t"></i><i></i><i class="w"></i><i></i><i></i><i class="w"></i><i class="t" style="margin-top:8px"></i><i></i><i class="w"></i></div>
+          <div class="rw"><span class="ico"><svg><use href="#i-doc"/></svg></span><span class="tx">devis-2026-118.pdf<small>2 pages · ouvrir en plein écran</small></span><span class="chev">›</span></div>
+          <div class="field"><label>Code reçu par SMS au 07 65 43 21 09</label><div class="otp"><span>4</span><span>8</span><span>2</span><span>9</span><span></span><span></span></div></div>
+          <div class="pill">Signer le devis</div>
+          <div class="hint">En signant, vous acceptez ce devis. Signature électronique simple avec horodatage et identification par votre numéro de mobile. Le contenu du devis est de la responsabilité de Dupont Plomberie.</div>
+          <div class="pill ghost sm">Ne plus recevoir de relance pour ce devis</div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- BON A4 -->
+    <div class="shot"><div class="cap"><h3>Copie du bon d'intervention</h3><p>Page imprimable A4 ouverte depuis le lien SMS. L'impression sert de PDF.</p></div>
+      <div class="a4">
+        <div class="hd"><div><h3>Bon d'intervention</h3><small>N° BI-2026-0042 · 14 novembre 2026</small></div><div style="text-align:right"><b>Dupont Plomberie</b><small>5 rue du Port, 44400 Rezé</small><small>06 11 22 33 44 · SIRET 123 456 789 00012</small></div></div>
+        <dl><dt>Client</dt><dd>Mme Bernard</dd><dt>Adresse</dt><dd>12 rue de la Paix, 44400 Rezé</dd><dt>Téléphone</dt><dd>06 12 34 56 78</dd><dt>Intervention</dt><dd>14 nov. 2026, 14:00–15:30</dd></dl>
+        <div><b>Problème signalé</b><div class="box">Fuite sous l'évier de la cuisine, goutte en continu depuis la veille. Arrivée d'eau coupée par le client.</div></div>
+        <div><b>Travaux réalisés</b><div class="box">Remplacement du siphon et du joint de bonde, contrôle d'étanchéité, remise en eau. Aucune fuite constatée après essai de 10 minutes.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Signature du client</b><div class="box" style="height:70px;display:grid;place-items:center"><svg viewBox="0 0 160 50" width="140" height="44" aria-hidden="true"><path d="M10 35 C 30 5, 45 45, 60 25 S 90 10, 100 32 S 130 38, 150 20" fill="none" stroke="#202020" stroke-width="1.8" stroke-linecap="round"/></svg></div><small style="color:#7C828D">Signé le 14 nov. 2026 à 15:28</small></div><div><b>Artisan</b><div class="box" style="height:70px">Dupont Plomberie</div></div></div>
+        <div class="foot">Ce document atteste la réalisation des travaux décrits. Il ne contient ni prix ni TVA et ne vaut pas facture. Copie envoyée par SMS au client. Généré avec ArtizaPro.</div>
+      </div>
+    </div>
+
+    <!-- RETOUR -->
+    <div class="shot"><div class="cap"><h3>Retour privé</h3><p>Reprend l'écran « Additional info needed » : illustration lime au trait, salutation, texte, bouton noir. Message direct à l'artisan, sans avis public.</p></div>
+      <div class="phone client">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Dupont Plomberie</div><div class="sq ph"></div></div>
+        <div class="screen client">
+          <div class="hero-ill"><svg viewBox="0 0 120 120" fill="none" stroke="#C9F158" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 30h80v50H55l-20 18V80H20z"/><path d="M40 50h40M40 62h24"/><circle cx="95" cy="22" r="10" fill="#C9F158" stroke="none"/></svg></div>
+          <div><div class="hint">Bonjour Mme Garnier,</div><div class="hello" style="font-size:22px">Un souci avec l'intervention ?</div><div class="hint" style="font-size:14px;margin-top:4px">Dites-nous ce qui ne va pas, nous vous rappelons. Ce message est privé, il n'est pas publié et ne remplace pas votre avis Google.</div></div>
+          <div class="field"><label>Votre message</label><div class="in ta">Le robinet goutte encore légèrement quand on le ferme fort. Pouvez-vous repasser ?</div></div>
+          <div class="rw g"><span class="ico"><svg><use href="#i-doc"/></svg></span><span class="tx">Intervention concernée<small>Fuite robinet cuisine · 6 nov. 2026</small></span></div>
+          <div class="pill">Envoyer à Dupont Plomberie</div>
+          <div class="hint" style="text-align:center">Ou appelez directement le <b style="color:var(--n-ink)">06 11 22 33 44</b></div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+    <!-- STOP -->
+    <div class="shot"><div class="cap"><h3>Désinscription</h3><p>Lien présent dans chaque relance et demande d'avis. Un clic, puis confirmation.</p></div>
+      <div class="phone client">
+        <div class="sb"><span>9:41</span><span class="isl"></span><span class="sig">▂▄▆ ◠ ▮</span></div>
+        <div class="appbar"><div class="sq ph"></div><div class="ttl">Vos préférences SMS</div><div class="sq ph"></div></div>
+        <div class="screen client">
+          <div class="ok"><div class="ck"><svg width="34" height="34"><use href="#i-ok"/></svg></div><div class="hello" style="font-size:22px">C'est noté</div><p class="hint" style="font-size:14px">Vous ne recevrez plus de relance de devis ni de demande d'avis de la part de Dupont Plomberie au 06 98 76 54 32.</p><p class="hint">Les messages liés à un rendez-vous déjà pris (confirmation, rappel) continuent d'être envoyés.</p></div>
+          <div class="pill w">Réactiver les messages</div>
+        </div>
+        <div class="home"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Correspondances avec le modèle</h2><p class="muted">Pour vérifier que rien du système n'a été perdu en route.</p></div>
+  <div class="tablewrap"><table class="cmp"><thead><tr><th>Écran du modèle Neobank</th><th>Écran ArtizaPro</th><th>Ce qui change</th></tr></thead><tbody>
+    <tr><td>Home : salutation, balance, Add money, Your cards, Transactions</td><td>Accueil</td><td>Le solde devient le nombre de dossiers à décider ; les cartes bancaires ne sont pas reprises : à leur place, la carte géographique des rendez-vous du jour ; les transactions deviennent les dossiers à traiter</td></tr>
+    <tr><td>Transactions : chips, groupes par date avec total</td><td>Dossiers</td><td>Groupes par statut avec nombre de dossiers ; chips par type et période</td></tr>
+    <tr><td>Add money : Select card, lignes à chevron</td><td>Speed Dial</td><td>Tuiles blanches avec icône pour le type de mission ; lignes pour le créneau</td></tr>
+    <tr><td>Profile : avatar, Personal info avec icônes</td><td>Fiche dossier et Profil</td><td>Même bloc d'informations avec icônes ; bloc Rendez-vous avec le lieu sur la carte</td></tr>
+    <tr><td>Map : chips, carte, feuille basse « View details »</td><td>Agenda</td><td>Grille horaire du jour avec trajets et créneaux libres ; bouton « Voir les lieux » qui ouvre la carte ; bandeau de jours</td></tr>
+    <tr><td>Settings : lignes avec icône et bascule lime</td><td>Profil (réglages)</td><td>Durées, plages, messages automatiques, partage</td></tr>
+    <tr><td>Additional info needed : illustration lime, texte, bouton noir</td><td>Retour privé (client)</td><td>Même composition</td></tr>
+    <tr><td>Replace your card : titre, phrase, champs</td><td>Nouvelle demande (client)</td><td>Même composition de formulaire</td></tr>
+  </tbody></table></div>
+</section>
+</div>
